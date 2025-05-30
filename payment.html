@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex, nofollow">
+    <title>KidFans - Crypto Payment</title>
+    <style>
+@font-face {
+            font-family: "Consolas";
+            src: url("/fonts/consolas.woff2") format("woff2");
+            
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Consolas", monospace;
+        }
+
+        html,
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-size: 14px;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            position: relative;
+            background-image: url("/images/h.png");
+            
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.781);
+            z-index: -1;
+        }
+
+        .screen-container {
+            height: calc(100vh - 30px);
+            width: calc(100vw - 30px);
+            border: 1px solid #333333;
+            padding: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        
+        .language-dropdown {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+        }
+
+        .account-button {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+
+        .account-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #777;
+        }
+
+        .account-button svg {
+            color: #ffffff;
+        }
+
+        
+        .header-section {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0 10px 0;
+        }
+
+        .ascii-logo {
+            font-family: "Consolas", monospace;
+            white-space: pre;
+            line-height: 1.1;
+            font-size: 10px;
+            text-align: center;
+            background: linear-gradient(45deg, #ff0000, #ff00ff, #0000ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient-shift 8s ease-in-out infinite;
+        }
+
+        @keyframes gradient-shift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        
+
+        
+        .catalog-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 10px 0;
+            max-width: 1000px;
+            
+            margin: 0 auto;
+            
+            width: 85%;
+            
+        }
+
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .catalog-title-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .catalog-title {
+            font-family: "Consolas", monospace;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .catalog-stats {
+            font-size: 10px;
+            color: #666;
+            letter-spacing: 0.5px;
+        }
+
+        
+        .video-catalog-container {
+            flex: 1;
+            overflow-y: auto;
+            flex-direction: column;
+            position: relative;
+            padding: 10px;
+            
+        }
+
+        
+        .payment-options {
+            display: flex;
+            
+            flex-direction: column;
+            
+            align-items: center;
+            
+            gap: 16px;
+            
+            margin-bottom: 1.5rem;
+            padding-right: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #444 #222;
+            max-width: 400px;
+            
+            margin: 0 auto;
+            margin-bottom: 1.5rem;
+            
+        }
+
+        .payment-options::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+            display: block;
+        }
+
+        .payment-options::-webkit-scrollbar-track {
+            background: #222;
+        }
+
+        .payment-options::-webkit-scrollbar-thumb {
+            background: #444;
+        }
+
+        .payment-options::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        
+        .payment-card-label {
+            display: block;
+            
+            width: 100%;
+            
+        }
+
+        .payment-card-label input[type="radio"] {
+            display: none;
+        }
+
+        .payment-section {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(20, 20, 20, 0.7));
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 1rem;
+            
+            backdrop-filter: blur(5px);
+            width: 100%;
+            
+        }
+
+        .payment-card-label input[type="radio"]:checked+.payment-section {
+            border-color: #7f4cd8;
+            
+            background-color: rgba(8, 8, 8, 0.8);
+            
+            box-shadow: 0 0 15px rgba(127, 76, 216, 0.2);
+            
+        }
+
+        .payment-section:hover {
+            border-color: #555;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .payment-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            margin-bottom: 0.8rem;
+            
+        }
+
+        .payment-section-label {
+            font-size: 1.1rem;
+            
+            color: #ffffff;
+            
+            font-weight: bold;
+            
+            letter-spacing: 0.5px;
+        }
+
+        .payment-section-token {
+            margin-top: auto;
+            
+        }
+
+        .token-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(21, 21, 21, 0.6);
+            padding: 0.5rem 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .token-badge img {
+            width: 1.5rem;
+            
+            height: 1.5rem;
+        }
+
+        .token-badge span {
+            font-size: 1rem;
+            
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .continue-button {
+            width: 100%;
+            max-width: 250px;
+            margin: 1.5rem auto;
+ 
+            display: block;
+            background-color: transparent;
+            color: #ffffff;
+
+            border: 1px solid #7f4cd8;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+ 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: none;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: auto;
+            margin-bottom: 20px;
+}
+
+        .continue-button:hover {
+            background-color: rgba(127, 76, 216, 0.1);
+            
+            border-color: #9a6ceb;
+        }
+
+        
+        .payment-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-top: 1.5rem;
+        }
+
+        .payment-tab {
+            background: none;
+            color: rgba(255, 255, 255, 0.6);
+            border: none;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .payment-tab:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .payment-tab.active {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .payment-tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #7f4cd8;
+        }
+
+        
+        @media (max-width: 1200px) {
+            .catalog-section {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .catalog-section {
+                width: 95%;
+            }
+
+            .catalog-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            
+            .payment-options {
+                max-width: 350px;
+                
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ascii-logo {
+                font-size: 8px;
+            }
+
+            .catalog-section {
+                width: 100%;
+            }
+
+            .payment-options {
+                max-height: 300px;
+                
+                max-width: 100%;
+                
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+                padding-bottom: 100px;
+                min-height: 100vh;
+                height: auto;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .language-dropdown {
+                top: 1.2rem;
+                left: 1.2rem;
+            }
+
+            .account-button {
+                font-size: 1rem;
+            }
+
+            .ascii-logo {
+                font-size: 6px;
+            }
+
+            .catalog-title {
+                font-size: 14px;
+            }
+
+            .catalog-stats {
+                font-size: 9px;
+            }
+
+            .payment-tabs {
+                gap: 1.2rem;
+                padding-top: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .payment-tab {
+                font-size: 0.95rem;
+            }
+
+            .payment-options {
+                gap: 0.8rem;
+                
+                max-height: 280px;
+                margin-bottom: 1rem;
+                max-width: 100%;
+                
+            }
+
+            .payment-section {
+                padding: 0.8rem;
+            }
+
+            .payment-section-label {
+                font-size: 1rem;
+            }
+
+            .token-badge {
+                padding: 0.4rem 0.7rem;
+                gap: 0.4rem;
+            }
+
+            .token-badge img {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+
+            .token-badge span {
+                font-size: 0.9rem;
+            }
+
+            .continue-button {
+                max-width: 100%;
+                padding: 0.9rem;
+                font-size: 1rem;
+            }
+            .video-catalog-container form {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+        }
+
+            .video-catalog-container::-webkit-scrollbar {
+                width: 6px;
+        }
+
+            .video-catalog-container::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.2);
+        }
+
+            .video-catalog-container::-webkit-scrollbar-thumb {
+                background-color: #7f4cd8;
+                border-radius: 3px;
+        }
+    }
+
+    </style>
+    <link rel="preload" href="/fonts/consolas.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+
+<body>
+    
+    <div class="screen-container">
+        
+        <div class="language-dropdown">
+        <a href="premium.html" class="account-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+        </a>
+        </div>
+
+        <div class="header-section">
+            <pre class="ascii-logo">██╗  ██╗██╗██████╗ ███████╗ █████╗ ███╗   ██╗███████╗
+██║ ██╔╝██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔════╝
+█████╔╝ ██║██║  ██║█████╗  ███████║██╔██╗ ██║███████╗
+██╔═██╗ ██║██║  ██║██╔══╝  ██╔══██║██║╚██╗██║╚════██║
+██║  ██╗██║██████╔╝██║     ██║  ██║██║ ╚████║███████║
+╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝</pre>
+        </div>
+
+        
+        <div class="catalog-section">
+            <div class="catalog-header">
+                <div class="catalog-title-section">
+                    <h2 class="catalog-title">CHOOSE YOUR TOKEN</h2>
+                    <span class="catalog-stats">Select your preferred cryptocurrency for payment.</span>
+                </div>
+            </div>
+
+            
+            <div class="video-catalog-container">
+                <div class="payment-tabs">
+                    <button class="payment-tab active">Cryptocurrency</button>
+                    <a href="paypal.html" class="payment-tab">PayPal</a>
+                </div>
+                <form method="post" action="">
+                    <div class="payment-options">
+                        
+                        <label class="payment-card-label">
+                            <input type="radio" name="crypto" value="xmr" checked>
+                            <div class="payment-section">
+                                <div class="payment-section-header">
+                                    <span class="payment-section-label">Monero</span>
+                                </div>
+                                <div class="payment-section-token">
+                                    <div class="token-badge">
+                                        <img src="./crypto/xmr.png" alt="XMR">
+                                        <span>XMR</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="payment-card-label">
+                            <input type="radio" name="crypto" value="btc">
+                            <div class="payment-section">
+                                <div class="payment-section-header">
+                                    <span class="payment-section-label">Bitcoin</span>
+                                </div>
+                                <div class="payment-section-token">
+                                    <div class="token-badge">
+                                        <img src="./crypto/btc.png" alt="BTC">
+                                        <span>BTC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="payment-card-label">
+                            <input type="radio" name="crypto" value="eth">
+                            <div class="payment-section">
+                                <div class="payment-section-header">
+                                    <span class="payment-section-label">Ethereum</span>
+                                </div>
+                                <div class="payment-section-token">
+                                    <div class="token-badge">
+                                        <img src="./crypto/eth.png" alt="ETH">
+                                        <span>ETH</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="payment-card-label">
+                            <input type="radio" name="crypto" value="ltc">
+                            <div class="payment-section">
+                                <div class="payment-section-header">
+                                    <span class="payment-section-label">Litecoin</span>
+                                </div>
+                                <div class="payment-section-token">
+                                    <div class="token-badge">
+                                        <img src="./crypto/ltc.png" alt="LTC">
+                                        <span>LTC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <button type="submit" class="continue-button">Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

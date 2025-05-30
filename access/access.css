@@ -1,0 +1,443 @@
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  position: relative;
+  background-image: url("/images/bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.welcome-message {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.highlight {
+  color: #ff1744;
+  font-weight: bold;
+}
+
+.highlight-alt {
+  color: #00ccff;
+  font-weight: bold;
+}
+
+.login-container {
+  max-width: 400px;
+  width: 90%;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 1px;
+  border-radius: 2px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.error-message {
+  color: #ff1744;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  min-height: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.input-group input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  color: #fff;
+  padding: 15px 15px 15px 45px;
+  font-family: "Consolas", monospace;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.input-group label {
+  position: absolute;
+  left: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.input-group input:focus,
+.input-group input:valid {
+    outline: none;
+  border-color: #555;
+}
+
+.input-group input:focus + label,
+.input-group input:valid + label {
+  top: 0;
+  left: 10px;
+  font-size: 12px;
+  color: #ff1744;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0 5px;
+}
+
+.input-group input:focus ~ .input-icon,
+.input-group input:valid ~ .input-icon {
+  color: #ff1744;
+}
+
+.captcha-container {
+  margin-bottom: 25px;
+}
+
+.captcha-container label {
+  display: block;
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.captcha-container input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  color: #fff;
+  padding: 15px;
+  font-family: "Consolas", monospace;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.captcha-container input:focus {
+  outline: none;
+  border-color: #555;
+}
+
+.register-link {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: #999;
+}
+
+.create-account {
+  color: #ff1744;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.create-account:hover {
+  color: #ff4569;
+}
+
+.fingerprint-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0 auto;
+  display: block;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.fingerprint-icon {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.fingerprint-icon svg {
+  color: #ff1744;
+  transition: all 0.3s ease;
+  filter: hue-rotate(0deg);
+  animation: rainbow-cycle 8s linear infinite paused;
+}
+
+.fingerprint-icon:hover svg {
+  animation-play-state: running;
+  filter: saturate(1.5) brightness(1.2);
+}
+
+.scan-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  top: 0;
+  animation: scan 2s linear infinite paused;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: hue-rotate(0deg);
+  animation: scan-rainbow 2s linear infinite paused;
+}
+
+.fingerprint-icon:hover .scan-line {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes scan-rainbow {
+  0% {
+    top: 0;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    top: 50%;
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    top: 100%;
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    top: 50%;
+    filter: hue-rotate(270deg);
+  }
+  100% {
+    top: 0;
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes successAnimation {
+  0% { transform: scale(1); stroke: currentColor; }
+  50% { transform: scale(1.2); stroke: #4CAF50; }
+  100% { transform: scale(1); stroke: #4CAF50; }
+}
+
+.success {
+  animation: successAnimation 2s ease-in-out;
+}
+
+.success svg {
+  stroke: #4CAF50;
+}
+
+@keyframes errorAnimation {
+  0% { transform: scale(1); stroke: currentColor; }
+  25% { transform: translateX(-5px); stroke: #ff1744; }
+  50% { transform: translateX(5px); stroke: #ff1744; }
+  75% { transform: translateX(-5px); stroke: #ff1744; }
+  100% { transform: scale(1); stroke: #ff1744; }
+}
+
+.error {
+  animation: errorAnimation 0.5s ease-in-out;
+}
+
+.error svg {
+  stroke: #ff1744;
+}
+
+.back-button {
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid #555;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: #ffffff;
+  border-radius: 2px;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #777;
+}
+
+.back-button svg {
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .welcome-message {
+    font-size: 16px;
+    margin-bottom: 25px;
+  }
+  
+  .login-container {
+    width: 95%;
+    padding: 25px;
+    max-width: 350px;
+  }
+  
+  .input-group input {
+    padding: 12px 12px 12px 40px;
+    font-size: 16px; 
+  }
+  
+  .input-group label {
+    left: 40px;
+    font-size: 14px;
+  }
+  
+  .captcha-container input {
+    padding: 12px;
+    font-size: 16px; 
+  }
+  
+  .fingerprint-icon {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .fingerprint-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-message {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .login-container {
+    width: 95%;
+    padding: 20px;
+    max-width: 320px;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group input {
+    padding: 10px 10px 10px 35px;
+    font-size: 16px;
+  }
+  
+  .input-icon {
+    left: 8px;
+  }
+  
+  .input-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .input-group label {
+    left: 35px;
+    font-size: 13px;
+  }
+  
+  .captcha-container input {
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .captcha-container label {
+    font-size: 13px;
+  }
+  
+  .register-link {
+    font-size: 13px;
+    margin-bottom: 25px;
+  }
+  
+  .fingerprint-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .fingerprint-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 320px) {
+  .login-container {
+    width: 98%;
+    padding: 15px;
+    max-width: 300px;
+  }
+  
+  .welcome-message {
+    font-size: 13px;
+  }
+  
+  .input-group input,
+  .captcha-container input {
+    font-size: 14px;
+  }
+  
+  .fingerprint-icon {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .fingerprint-icon svg {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+}

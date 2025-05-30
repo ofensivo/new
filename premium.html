@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex, nofollow">
+    <title>KidFans - Premium</title>
+    <meta name="description" content="Unlock exclusive premium content">
+    <link rel="preload" href="/fonts/consolas.woff2" as="font" type="font/woff2" crossorigin>
+    <style>
+        @font-face {
+            font-family: "Consolas";
+            src: url("/fonts/consolas.woff2") format("woff2");
+
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --hue1: 255;
+            --hue2: 222;
+            --border: 1px;
+            --border-color: hsl(var(--hue2), 12%, 20%);
+            --radius: 22px;
+            --ease: cubic-bezier(0.5, 1, 0.89, 1);
+            --primary-purple: #7f4cd8; 
+            --dark-bg: #000000; 
+            --text-light: #ffffff; 
+            --text-muted: #666; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Consolas", monospace;
+        }
+
+        html,
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; 
+            position: fixed; 
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.4;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            position: relative;
+            background-image: url("/images/z.png"); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8); 
+            z-index: -1;
+        }
+
+        .screen-container {
+            height: calc(100vh - 30px);
+            width: calc(100vw - 30px);
+            border: 1px solid var(--border-color); 
+            padding: 15px;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); 
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+        }
+
+        .account-button {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+            text-decoration: none; 
+        }
+
+        .account-button:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .account-button svg {
+            color: var(--text-light);
+            width: 20px;
+            height: 20px;
+        }
+
+        .header-section {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0 10px 0;
+        }
+
+        .ascii-logo {
+            font-family: "Consolas", monospace;
+            white-space: pre;
+            line-height: 1.1;
+            font-size: 10px;
+            text-align: center;
+            background: linear-gradient(45deg, #d2b6ff, #a813ff, #ff00c8);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient-shift 8s ease-in-out infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .pricing-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .plan-card {
+            font-family: "Consolas", monospace;
+            color: #737985;
+            position: relative;
+            min-width: 275px;
+            min-height: 420px;
+            border: var(--border) solid rgba(255, 255, 255, 0.1);
+            padding: 2em;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        #monthly-plan {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto; 
+            transition-property: visibility, opacity, filter;
+            transition-duration: 0s, 0.25s, 0.25s, 0.25s;
+            transition-delay: 0.5s, 0s, 0s, 0s;
+            transition-timing-function: var(--ease);
+
+            border: var(--border) solid var(--border-color);
+            background: linear-gradient(235deg, hsl(var(--hue1) 50% 10% / 0.8), hsl(var(--hue1) 50% 10% / 0) 33%),
+                linear-gradient(45deg, hsl(var(--hue2) 50% 10% / 0.8), hsl(var(--hue2) 50% 10% / 0) 33%),
+                linear-gradient(hsl(220deg 25% 4.8% / 0.66));
+            box-shadow: hsl(var(--hue2) 50% 2%) 0px 10px 16px -8px, hsl(var(--hue2) 50% 4%) 0px 20px 36px -14px;
+        }
+
+        #monthly-plan .shine,
+        #monthly-plan .glow {
+            --hue: var(--hue1);
+        }
+
+        #monthly-plan .shine-bottom,
+        #monthly-plan .glow-bottom {
+            --hue: var(--hue2);
+            --conic: 135deg;
+        }
+
+        #monthly-plan .glow {
+            pointer-events: none;
+            border: calc(var(--radius) * 1.25) solid transparent;
+            inset: calc(var(--radius) * -2);
+
+            width: 85%;
+            height: auto;
+            min-height: 0px;
+            aspect-ratio: 1;
+            display: block;
+            position: absolute;
+            left: auto;
+            bottom: auto;
+
+            opacity: 1;
+            filter: blur(15px) saturate(1.25) brightness(0.5);
+            mix-blend-mode: plus-lighter;
+            z-index: 3;
+        }
+
+        #monthly-plan .glow::before,
+        #monthly-plan .glow::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: inherit;
+            background: conic-gradient(from var(--conic, -45deg) at center in oklch,
+                    transparent var(--start, 0%),
+                    hsl(var(--hue), var(--sat, 95%), var(--lit, 60%)),
+                    transparent var(--end, 50%)) border-box;
+            mask: linear-gradient(transparent), linear-gradient(black);
+            mask-repeat: no-repeat;
+            mask-clip: padding-box, border-box;
+            mask-composite: subtract;
+            filter: saturate(2) brightness(1);
+        }
+
+        .inner {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+            height: 100%;
+            justify-content: space-between;
+        }
+
+        .plan-header h3 {
+            font-family: "Consolas", monospace;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+
+        .plan-header p {
+            font-size: 12px;
+            color: #9aa0ad;
+            letter-spacing: 0.5px;
+            text-align: left;
+            margin-bottom: 0;
+        }
+
+        .plan-features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #9aa0ad;
+            letter-spacing: 0.3px;
+        }
+
+        .feature svg {
+            color: #4caf50;
+            flex-shrink: 0;
+        }
+
+        .feature span {
+            line-height: 1.4;
+        }
+
+        .plan-price {
+            text-align: left;
+            margin: 2em 0;
+            padding: 0;
+            background: none;
+            backdrop-filter: none;
+        }
+
+        .currency {
+            font-size: 18px;
+            color: #ff1744;
+            font-weight: bold;
+        }
+
+        .amount {
+            font-size: 48px;
+            color: #ffffff;
+            font-weight: bold;
+            font-family: "Consolas", monospace;
+            margin: 0 4px;
+        }
+
+        .period {
+            font-size: 14px;
+            color: #9aa0ad;
+        }
+
+        .savings {
+            text-align: left;
+            font-size: 13px;
+            color: #4caf50;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            padding: 0;
+            background: none;
+            border-radius: 0;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .plan-button {
+            position: relative;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.8);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 20px;
+            font-family: "Consolas", monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-decoration: none; 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button-text {
+            position: relative;
+            z-index: 2;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .button-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+
+        .plan-button:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(30, 30, 30, 0.9);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .plan-button:hover .button-glow {
+            left: 100%;
+        }
+
+        .plan-button:active {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .plan-button.premium {
+            background: linear-gradient(135deg, rgba(255, 23, 68, 0.8), rgba(255, 69, 105, 0.6));
+            border: 1px solid rgba(255, 23, 68, 0.3);
+            font-weight: bold;
+        }
+
+        .plan-button.premium:hover {
+            background: linear-gradient(135deg, rgba(255, 69, 105, 0.9), rgba(255, 107, 138, 0.7));
+            border-color: rgba(255, 69, 105, 0.5);
+        }
+
+        .plan-button.premium .button-glow {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        @keyframes glow {
+            0% {
+                opacity: 0;
+            }
+
+            3% {
+                opacity: 1;
+            }
+
+            10% {
+                opacity: 0;
+            }
+
+            12% {
+                opacity: 0.7;
+            }
+
+            16% {
+                opacity: 0.3;
+                animation-timing-function: var(--ease);
+            }
+
+            100% {
+                opacity: 1;
+                animation-timing-function: var(--ease);
+            }
+        }
+
+        @keyframes glowoff {
+            to {
+                opacity: 0;
+            }
+        }
+
+        @media (min-width: 1201px) {
+            .pricing-grid {
+                max-width: 900px;
+                gap: 50px;
+            }
+            .plan-card {
+                min-width: 300px;
+                min-height: 450px;
+                padding: 2.5em;
+            }
+            .plan-header h3 {
+                font-size: 20px;
+            }
+            .amount {
+                font-size: 56px;
+            }
+            .plan-button {
+                padding: 18px 25px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 1199px) {
+            .pricing-grid {
+                max-width: 750px;
+                gap: 35px;
+            }
+            .plan-card {
+                min-width: 250px;
+                min-height: 400px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .pricing-grid {
+                grid-template-columns: 1fr; 
+                gap: 30px;
+                max-width: 450px; 
+            }
+            .plan-card {
+                min-width: auto; 
+                min-height: auto; 
+                padding: 2em;
+            }
+            .back-button span {
+                display: none; 
+            }
+            html,
+            body {
+                height: auto; 
+                width: 100%;
+                overflow-y: auto; 
+                position: relative; 
+            }
+            body {
+                padding: 10px; 
+                min-height: 100vh; 
+            }
+            body::before {
+                position: absolute; 
+                height: 100%; 
+            }
+            .screen-container {
+                height: auto; 
+                min-height: calc(100vh - 20px); 
+                width: 100%;
+                padding: 10px;
+            }
+            .language-dropdown {
+                top: 10px;
+                left: 10px;
+            }
+            .ascii-logo {
+                font-size: 8px;
+            }
+            .header-section {
+                padding: 10px 0 5px 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .pricing-section {
+                padding: 15px 0;
+            }
+            .pricing-grid {
+                gap: 25px;
+                max-width: 380px;
+            }
+            .plan-card {
+                padding: 1.8em;
+            }
+            .plan-header h3 {
+                font-size: 16px;
+            }
+            .amount {
+                font-size: 40px;
+            }
+            .plan-button {
+                padding: 14px 18px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .ascii-logo {
+                font-size: 6px;
+                line-height: 1;
+            }
+            .pricing-grid {
+                gap: 20px;
+                max-width: 300px;
+            }
+            .plan-card {
+                padding: 1.5em;
+            }
+            .plan-header h3 {
+                font-size: 14px;
+            }
+            .plan-header p {
+                font-size: 11px;
+            }
+            .plan-features {
+                gap: 10px;
+                margin: 15px 0;
+            }
+            .feature {
+                font-size: 11px;
+            }
+            .currency {
+                font-size: 16px;
+            }
+            .amount {
+                font-size: 32px;
+            }
+            .period {
+                font-size: 12px;
+            }
+            .savings {
+                font-size: 12px;
+                margin: 8px 0;
+            }
+            .plan-button {
+                padding: 12px 15px;
+                font-size: 10px;
+                letter-spacing: 0.8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="screen-container">
+        
+        <div class="language-dropdown">
+            <a href="home.html" class="account-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 19-7-7 7-7"></path>
+                    <path d="M19 12H5"></path>
+                </svg>
+            </a>
+        </div>
+
+        
+        <div class="header-section">
+            <pre class="ascii-logo">██╗  ██╗██╗██████╗ ███████╗ █████╗ ███╗   ██╗███████╗
+██║ ██╔╝██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔════╝
+█████╔╝ ██║██║  ██║█████╗  ███████║██╔██╗ ██║███████╗
+██╔═██╗ ██║██║  ██║██╔══╝  ██╔══██║██║╚██╗██║╚════██║
+██║  ██╗██║██████╔╝██║     ██║  ██║██║ ╚████║███████║
+╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝</pre>
+        </div>
+
+        
+        <div class="pricing-section">
+            <div class="pricing-grid">
+                
+                <div class="plan-card" id="daily-plan">
+                    <div class="inner">
+                        <div class="plan-header">
+                            <h3>DAILY ACCESS</h3>
+                            <p>Perfect for trying out</p>
+                        </div>
+
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">1.99</span>
+                            <span class="period">/day</span>
+                        </div>
+
+                        <div class="plan-features">
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>24-hour unlimited access</span>
+                            </div>
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>High quality</span>
+                            </div>
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>No commitment required</span>
+                            </div>
+                        </div>
+                        <a href="payment.html" class="plan-button">
+                            <span class="button-text">SELECT DAILY</span>
+                            <div class="button-glow"></div>
+                        </a>
+                    </div>
+                </div>
+
+                
+                <div class="plan-card featured" id="monthly-plan">
+                    <div class="shine"></div>
+                    <div class="shine-bottom"></div>
+                    <div class="glow"></div>
+                    <div class="glow-bottom"></div>
+                    <div class="glow-bright"></div>
+                    <div class="glow-bright glow-bottom"></div>
+                    <div class="shine-left"></div>
+                    <div class="glow-left"></div>
+
+                    <div class="inner">
+                        <div class="plan-header">
+                            <h3>MONTHLY PREMIUM</h3>
+                            <p>Most popular choice</p>
+                        </div>
+
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">30.99</span>
+                            <span class="period">/month</span>
+                        </div>
+
+                        <div class="savings">Save 83% vs daily</div>
+
+                        <div class="plan-features">
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>Unlimited monthly access</span>
+                            </div>
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>Lossless quality</span>
+                            </div>
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>Priority customer support</span>
+                            </div>
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>Exclusive premium content</span>
+                            </div>
+                            <div class="feature">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>Download for offline viewing</span>
+                            </div>
+                        </div>
+
+                        <a href="payment.html" class="plan-button premium">
+                            <span class="button-text">SELECT MONTHLY</span>
+                            <div class="button-glow"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

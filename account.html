@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KidFans - Account</title>
+    <style>
+        
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Consolas", monospace;
+        }
+
+        html,
+        body {
+            height: 100vh;
+            width: 100%;
+            background-color: #09090b;
+            color: #ffffff;
+            font-size: 14px;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("./images/x.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.781);
+        }
+
+        
+        .screen-container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 90vh;
+            border: 1px solid #27272a;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .back-button-container {
+            position: absolute;
+            
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+        }
+
+        .back-button {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button svg {
+            color: #ffffff;
+            width: 20px;
+            height: 20px;
+        }
+
+        
+        .header-section {
+            text-align: center;
+            margin: 32px 0 24px 0;
+        }
+
+        .ascii-logo {
+            font-family: "Consolas", monospace;
+            white-space: pre;
+            line-height: 1.2;
+            font-size: 12px;
+            text-align: center;
+            background: linear-gradient(90deg, #ff92b7, #fa1172, #fc325d);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient-shift 6s ease-in-out infinite;
+        }
+
+        @keyframes gradient-shift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        
+        .account-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 8px;
+        }
+
+        
+        .user-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        
+        .info-card {
+            background-color: #18181b;
+            border: 1px solid #27272a;
+            padding: 16px;
+        }
+
+        .info-card h2 {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .info-card .info-text {
+            font-size: 14px;
+            color: #a1a1aa;
+            margin-bottom: 12px;
+        }
+
+        .info-card button {
+            background: linear-gradient(90deg, #ff2b84, #ff418a);
+            border: none;
+            color: #ffffff;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .info-card button:hover {
+            opacity: 0.9;
+        }
+
+        
+        .plan-details {
+            background-color: #18181b;
+            border: 1px solid #27272a;
+            padding: 16px;
+            margin-top: 8px;
+        }
+
+        .plan-details h2 {
+            font-size: 16px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .plan-info {
+            margin-bottom: 12px;
+        }
+
+        .plan-link {
+            width: 100%;
+            padding: 10px;
+            background-color: #09090b;
+            border: 1px solid #27272a;
+            color: #a1a1aa;
+            font-family: "Consolas", monospace;
+            font-size: 13px;
+            margin: 8px 0;
+        }
+
+        .expiry-date {
+            font-size: 13px;
+            color: #71717a;
+            margin-top: 8px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #71717a;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        
+        .actions {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .action-btn {
+            background-color: #27272a;
+            border: none;
+            color: #ffffff;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .actions .note {
+            font-size: 12px;
+            color: #71717a;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        
+        .logout-button-container {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            
+            z-index: 10;
+        }
+
+        .logout-button {
+            background-color: transparent;
+            
+            color: #eb3737;
+            
+            text-decoration: none;
+            font-family: "Consolas", monospace;
+            
+            font-size: 16px;
+            
+            padding: 0 12px;
+            
+            transition: all 0.3s ease;
+            
+        }
+
+        .logout-button:hover {
+            color: #8a1717;
+            
+        }
+
+        
+        @media (max-width: 520px) {
+            .screen-container {
+                max-width: 95%;
+                min-height: 95vh;
+                padding: 16px;
+            }
+
+            .back-button-container {
+                top: 10px;
+                left: 15px;
+            }
+
+            .back-button {
+                padding: 6px;
+                
+            }
+
+            .header-section {
+                margin-top: 50px;
+                
+            }
+
+            .account-content {
+                gap: 16px;
+                padding: 4px;
+            }
+        
+        }
+        
+    </style>
+</head>
+
+<body>
+    
+    <div class="back-button-container">
+        <a href="home.html" class="back-button" aria-label="Voltar para a página inicial">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="logout-button-container">
+        <a href="#" class="logout-button">log out</a>
+    </div>
+
+    <div class="screen-container">
+
+        
+        <header class="header-section">
+            <pre class="ascii-logo">██╗  ██╗██╗██████╗ ███████╗ █████╗ ███╗   ██╗███████╗
+██║ ██╔╝██║██╔══██╗██╔════╝██╔══██╗████╗  ██║██╔════╝
+█████╔╝ ██║██║  ██║█████╗  ███████║██╔██╗ ██║███████╗
+██╔═██╗ ██║██║  ██║██╔══╝  ██╔══██║██║╚██╗██║╚════██║
+██║  ██╗██║██████╔╝██║     ██║  ██║██║ ╚████║███████║
+╚═╝  ╚═╝╚═╝╚═════╝ ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝</pre>
+        </header>
+
+        
+        <main class="account-content">
+            
+            <section class="user-info" aria-labelledby="user-info-title">
+                <h2 id="user-info-title" class="sr-only">User Information</h2>
+                <div class="info-card">
+                    <h3>Username</h3>
+                    <p class="info-text">haha</p>
+                </div>
+                <div class="info-card">
+                    <h3>Account Type</h3>
+                    <p class="info-text">Normal</p>
+                    <button class="upgrade-btn" aria-label="Upgrade to Premium">Upgrade to Premium</button>
+                </div>
+            </section>
+
+            
+            <section class="plan-details" aria-labelledby="plan-details-title">
+                <h2 id="plan-details-title">Plan Access</h2>
+                <div class="plan-info">
+                    <p><strong>Basic Plan</strong> - [50GB]</p>
+                    <input type="text" class="plan-link" value="https://kidfans.in/viewer.php?basic " readonly
+                        aria-label="Link de acesso ao plano básico">
+                    <p class="expiry-date">Expires on: December 31, 2023</p>
+                </div>
+                <p class="note">Upgrade to Premium for unlimited access and exclusive features.</p>
+            </section>
+
+            
+            <section class="actions" aria-labelledby="actions-title">
+                <button class="action-btn disabled" disabled aria-disabled="true">Change Password</button>
+                <p class="note">Password change is currently disabled. Contact support for assistance.</p>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
